@@ -1,2 +1,2 @@
 #!/bin/bash
-ln -s /alx-system_engineering-devops/shell/0x00-shell_basics/13-symbolic_link /bin/ls/__ls__
+ln -s /bin/ls/__ls__
