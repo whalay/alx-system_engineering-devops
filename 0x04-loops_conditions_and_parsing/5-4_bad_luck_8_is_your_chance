@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Displays "Best School" 10 times using a while loop.
-#   On the 9th iteration, displays "Hi" before "Best School".
+# Loops from 1 to 10 and displays:
+#   "bad luck" for the 4th iteration
+#   "good luck" for the 8th iteration
+#   "Best School" for all other iterations
 
 count=0
 
@@ -11,8 +13,9 @@ do
     echo "bad luck"
   elif [ $count -eq 8 ]
   then 
-     echo "good luck"
+    echo "good luck"
+  else
+    echo "Best School" 
   fi
-  echo "Best School"
   (( count++ ))
 done
