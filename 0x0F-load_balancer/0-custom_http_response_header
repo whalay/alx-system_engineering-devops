@@ -1,27 +1,9 @@
 #!/usr/bin/env bash
-# sets up a new server from update to
-sudo apt-get update
-sudo apt-get install -y nginx
-echo "Hello World!" > index.html
-sudo mv index.html /var/www/html
-
-
-echo "Ceci n'est pas une page" > 404.html
-sudo mv 404.html /var/www/html
-echo "server {
-   listen 80 default_server;
-   listen [::]:80 default_server;
-
-   root /var/www/html;
-   index index.html;
-   location /redirect_me {
-      return 301 https://www.github.com/whalay;
-   }
-   error_page 404 /404.html;
-   location = /404.html{
-      internal;
-   }
-}" > default
-sudo mv -f default /etc/nginx/sites-available/default
-sudo sed -i "11i\\\tadd_header X-Served-By $HOSTNAME;" /etc/nginx/nginx.conf
-sudo service nginx restart
+# This script configures a ngix server to display a custom http response header
+apt-get -y update
+apt-get -y install nginx
+echo "Hello World!" > /var/www/html/index.nginx-debian.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/whalay permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}/" /etc/nginx/sites-available/default
+sed -i "s/^\tlocation \/ {/\tlocation \/ {\n\t\tadd_header X-Served-By '$HOSTNAME';/" /etc/nginx/sites-available/default
+service nginx restart
