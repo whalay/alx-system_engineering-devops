@@ -1,4 +1,8 @@
 #!/usr/bin/python3
+"""
+    Function to print the top ten posts
+    on a given Reddit subreddit.
+"""
 import requests
 
 def top_ten(subreddit):
