@@ -39,11 +39,13 @@ server {
                 proxy_pass http://localhost:5000;
         }
 
-   location /airbnb-dynamic/number_odd_or_even/ {
-    proxy_pass http://localhost:5001;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    }
+        location /airbnb-dynamic/number_odd_or_even/ {
+                rewrite ^/airbnb-dynamic/number_odd_or_even/(.*)$ /number_odd_or_even/$1 break;
+                include proxy_params;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_pass http://localhost:5001;
+}
 
    location / {
                 add_header X-Served-By '185339-web-01';
